@@ -130,3 +130,37 @@ resource "null_resource" "initialize_cluster_autoscaling" {
 
   depends_on = ["null_resource.initialize_helm"]
 }
+
+resource "helm_release" "ingress" {
+  count = "${var.ingress_deploy}"
+
+  name  = "ingress"
+  chart = "stable/nginx-ingress"
+
+  set {
+    name  = "rback.create"
+    value = "true"
+  }
+
+  set {
+    name  = "controller.service.type"
+    value = "NodePort"
+  }
+
+  set {
+    name  = "controller.service.nodePorts.http"
+    value = "${var.ingress_service_nodeport_http}"
+  }
+
+  set {
+    name  = "controller.service.enableHttp"
+    value = "true"
+  }
+
+  set {
+    name  = "controller.service.enableHttps"
+    value = "false"
+  }
+
+  depends_on = ["null_resource.initialize_helm"]
+}

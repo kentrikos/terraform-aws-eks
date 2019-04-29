@@ -96,6 +96,21 @@ variable "install_helm" {
   default     = true
 }
 
+variable "ingress_deploy" {
+  description = "Deploy Kubernetes Ingress controller on the cluster (requires install_helm=true)"
+  default     = true
+}
+
+variable "ingress_service_type" {
+  description = "Type of ingress controller service to create"
+  default     = "NodePort"
+}
+
+variable "ingress_service_nodeport_http" {
+  description = "For NodePort type of ingress service, it sets the nodePort that maps to the Ingress' port 80"
+  default     = "32080"
+}
+
 variable "allowed_worker_ssh_cidrs" {
   type        = "list"
   description = "List of CIDR ranges to allow SSH access into worker nodes"
