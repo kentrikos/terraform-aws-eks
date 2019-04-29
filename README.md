@@ -34,6 +34,9 @@ Depending on your need, go to the appropriate folder and run:
 | enable_cluster_autoscaling | Turn autoscaling on for your worker group | string | `false` | no |
 | enable_pod_autoscaling | Enable horizontal pod autoscaling | string | `false` | no |
 | http_proxy | IP[:PORT] address and  port of HTTP proxy for your environment | string | `` | no |
+| ingress\_deploy | Deploy Kubernetes Ingress controller on the cluster (requires install_helm=true) | string | `"true"` | no |
+| ingress\_service\_nodeport\_http | For NodePort type of ingress service, it sets the nodePort that maps to the Ingress' port 80 | string | `"32080"` | no |
+| ingress\_service\_type | Type of ingress controller service to create | string | `"NodePort"` | no |
 | install_helm | Install Helm during the deployment of the module | string | `true` | no |
 | key_name | Key pair to use to access the instance created by the ASG/LC | string | - | yes |
 | max_worker_nodes | Maximum amount of worker nodes to spin up | string | `6` | no |
