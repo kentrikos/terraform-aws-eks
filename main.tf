@@ -169,7 +169,7 @@ resource "aws_ssm_parameter" "workers_asg_names" {
   name        = "/${var.cluster_prefix}/workers_asg_names"
   description = "Names of the autoscaling groups containing workers"
   type        = "StringList"
-  value       = "${module.eks.workers_asg_names}"
+  value       = "${join(",", module.eks.workers_asg_names)}"
 
   tags = "${var.tags}"
 }
