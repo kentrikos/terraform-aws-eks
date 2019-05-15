@@ -164,12 +164,3 @@ resource "helm_release" "ingress" {
 
   depends_on = ["null_resource.initialize_helm"]
 }
-
-resource "aws_ssm_parameter" "workers_asg_names" {
-  name        = "/${var.cluster_prefix}/workers_asg_names"
-  description = "Names of the autoscaling groups containing workers"
-  type        = "StringList"
-  value       = "${join(",", module.eks.workers_asg_names)}"
-
-  tags = "${var.tags}"
-}
