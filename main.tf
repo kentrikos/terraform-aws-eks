@@ -131,35 +131,20 @@ resource "null_resource" "initialize_cluster_autoscaling" {
   depends_on = ["null_resource.initialize_helm"]
 }
 
-resource "helm_release" "ingress" {
+
+resource "null_resource" "ingress" {
   count = "${var.ingress_deploy}"
 
-  name  = "ingress"
-  chart = "stable/nginx-ingress"
-
-  set {
-    name  = "rback.create"
-    value = "true"
-  }
-
-  set {
-    name  = "controller.service.type"
-    value = "NodePort"
-  }
-
-  set {
-    name  = "controller.service.nodePorts.http"
-    value = "${var.ingress_service_nodeport_http}"
-  }
-
-  set {
-    name  = "controller.service.enableHttp"
-    value = "true"
-  }
-
-  set {
-    name  = "controller.service.enableHttps"
-    value = "false"
+  provisioner "local-exec" {
+    command = <<EOC
+        helm install --replace --wait --name ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}"
+        stable/nginx-ingress
+        --set rback.create=true
+        --set controller.service.type=NodePort
+        --set controller.service.nodePorts.http="${var.ingress_service_nodeport_http}"
+        --set controller.service.enableHttp=true
+        --set controller.service.enableHttps=false
+    EOC
   }
 
   depends_on = ["null_resource.initialize_helm"]
