@@ -137,12 +137,12 @@ resource "null_resource" "ingress" {
 
   provisioner "local-exec" {
     command = <<EOC
-        helm install --replace --wait --name ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}"
-        stable/nginx-ingress
-        --set rback.create=true
-        --set controller.service.type=NodePort
-        --set controller.service.nodePorts.http="${var.ingress_service_nodeport_http}"
-        --set controller.service.enableHttp=true
+        helm install --replace --wait --name ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}" \
+        stable/nginx-ingress \
+        --set rback.create=true \
+        --set controller.service.type=NodePort \
+        --set controller.service.nodePorts.http="${var.ingress_service_nodeport_http}" \
+        --set controller.service.enableHttp=true \
         --set controller.service.enableHttps=false
     EOC
   }
