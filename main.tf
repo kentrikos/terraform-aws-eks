@@ -11,12 +11,12 @@ module "eks" {
   worker_groups                              = "${local.worker_group}"
   kubeconfig_aws_authenticator_env_variables = "${var.aws_authenticator_env_variables}"
   worker_group_count                         = "1"
-  worker_additional_security_group_ids       = ["${aws_security_group.all_worker_mgmt.id}"]
+  worker_additional_security_group_ids       = ["${aws_security_group.all_worker_additional.id}"]
   cluster_version                            = "${var.cluster_version}"
 }
 
-resource "aws_security_group" "all_worker_mgmt" {
-  name_prefix = "all_worker_management"
+resource "aws_security_group" "all_worker_additional" {
+  name_prefix = "all_worker_additional"
   vpc_id      = "${var.vpc_id}"
 }
 
@@ -27,8 +27,21 @@ resource "aws_security_group_rule" "allow_ssh" {
   to_port     = 22
   protocol    = "tcp"
   cidr_blocks = ["${var.allowed_worker_ssh_cidrs}"]
+  description = "Allow SSH connections"
 
-  security_group_id = "${aws_security_group.all_worker_mgmt.id}"
+  security_group_id = "${aws_security_group.all_worker_additional.id}"
+}
+
+resource "aws_security_group_rule" "allow_ingress" {
+  count       = "${var.ingress_deploy}"
+  type        = "ingress"
+  from_port   = "${var.ingress_service_nodeport_http}"
+  to_port     = "${var.ingress_service_nodeport_http}"
+  protocol    = "tcp"
+  cidr_blocks = ["${var.allowed_worker_nodeport_cidrs}"]
+  description = "Allow connections to ingress exposed via NodePort"
+
+  security_group_id = "${aws_security_group.all_worker_additional.id}"
 }
 
 data "template_file" "http_proxy_workergroup" {
@@ -131,8 +144,7 @@ resource "null_resource" "initialize_cluster_autoscaling" {
   depends_on = ["null_resource.initialize_helm"]
 }
 
-
-resource "null_resource" "ingress" {
+resource "null_resource" "install_ingress" {
   count = "${var.ingress_deploy}"
 
   provisioner "local-exec" {

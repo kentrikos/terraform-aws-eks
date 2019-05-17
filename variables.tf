@@ -116,3 +116,9 @@ variable "allowed_worker_ssh_cidrs" {
   description = "List of CIDR ranges to allow SSH access into worker nodes"
   default     = []
 }
+
+variable "allowed_worker_nodeport_cidrs" {
+  type        = "list"
+  description = "List of CIDR ranges allowed to connect to services exposed with NodePort in the cluster that are deployed by the module"
+  default     = []
+}
