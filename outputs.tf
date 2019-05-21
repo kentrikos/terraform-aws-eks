@@ -57,3 +57,8 @@ output "worker_iam_role_arn" {
   description = "default IAM role ARN for EKS worker groups"
   value       = "${module.eks.worker_iam_role_arn}"
 }
+
+output "ingress_service_nodeport_http" {
+  description = "Port number for ingress (valid only if exposed via NodePort)"
+  value       = "${var.ingress_service_nodeport_http}"
+}
