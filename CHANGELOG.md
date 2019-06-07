@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.1] 2019-06-07
+### Changed
+- Disable default ingress deployment
+
 ## [2.1.0] 2019-05-21
 ### Added
 - Deploy ingress controller

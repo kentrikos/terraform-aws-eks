@@ -98,7 +98,7 @@ variable "install_helm" {
 
 variable "ingress_deploy" {
   description = "Deploy Kubernetes Ingress controller on the cluster (requires install_helm=true)"
-  default     = true
+  default     = false
 }
 
 variable "ingress_service_type" {

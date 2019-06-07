@@ -34,7 +34,7 @@ Depending on your need, go to the appropriate folder and run:
 | enable\_cluster\_autoscaling | Turn autoscaling on for your worker group | string | `"false"` | no |
 | enable\_pod\_autoscaling | Enable horizontal pod autoscaling | string | `"false"` | no |
 | http\_proxy | IP[:PORT] address and  port of HTTP proxy for your environment | string | `""` | no |
-| ingress\_deploy | Deploy Kubernetes Ingress controller on the cluster (requires install_helm=true) | string | `"true"` | no |
+| ingress\_deploy | Deploy Kubernetes Ingress controller on the cluster (requires install_helm=true) | string | `"false"` | no |
 | ingress\_service\_nodeport\_http | For NodePort type of ingress service, it sets the nodePort that maps to the Ingress' port 80 | string | `"32080"` | no |
 | ingress\_service\_type | Type of ingress controller service to create | string | `"NodePort"` | no |
 | install\_helm | Install Helm during the deployment of the module | string | `"true"` | no |
