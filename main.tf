@@ -205,12 +205,12 @@ resource "aws_iam_role" "cluster_view" {
   tags                  = "${var.tags}"
 }
 
-resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSClusterPolicy" {
+resource "aws_iam_role_policy_attachment" "cluster_view_AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = "${aws_iam_role.cluster_view.name}"
 }
 
-resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSServicePolicy" {
+resource "aws_iam_role_policy_attachment" "cluster_view_AmazonEKSServicePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
   role       = "${aws_iam_role.cluster_view.name}"
 }
