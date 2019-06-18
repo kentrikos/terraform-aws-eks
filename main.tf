@@ -13,6 +13,25 @@ module "eks" {
   worker_group_count                         = "1"
   worker_additional_security_group_ids       = ["${aws_security_group.all_worker_additional.id}"]
   cluster_version                            = "${var.cluster_version}"
+
+  map_roles = [
+    {
+      role_arn = "${aws_iam_role.cluster_admin.arn}"
+      username = "admin"
+      group    = "system:masters"
+    },
+    {
+      role_arn = "${aws_iam_role.cluster_view.arn}"
+      username = "view"
+      group    = "system:basic-user"
+    },
+  ]
+
+  map_roles_count    = 2
+  map_users          = "${var.map_users}"
+  map_users_count    = "${var.map_users_count}"
+  map_accounts       = "${var.map_accounts}"
+  map_accounts_count = "${var.map_accounts_count}"
 }
 
 resource "aws_security_group" "all_worker_additional" {
@@ -160,4 +179,38 @@ resource "null_resource" "install_ingress" {
   }
 
   depends_on = ["null_resource.initialize_helm"]
+}
+
+resource "aws_iam_role" "cluster_admin" {
+  name_prefix           = "${var.cluster_prefix}"
+  assume_role_policy    = "${data.aws_iam_policy_document.cluster_assume_role_policy.json}"
+  force_detach_policies = true
+  tags                  = "${var.tags}"
+}
+
+resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = "${aws_iam_role.cluster_admin.name}"
+}
+
+resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSServicePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
+  role       = "${aws_iam_role.cluster_admin.name}"
+}
+
+resource "aws_iam_role" "cluster_view" {
+  name_prefix           = "${var.cluster_prefix}"
+  assume_role_policy    = "${data.aws_iam_policy_document.cluster_assume_role_policy.json}"
+  force_detach_policies = true
+  tags                  = "${var.tags}"
+}
+
+resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = "${aws_iam_role.cluster_view.name}"
+}
+
+resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSServicePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
+  role       = "${aws_iam_role.cluster_view.name}"
 }
