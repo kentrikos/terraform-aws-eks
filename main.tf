@@ -185,7 +185,8 @@ resource "aws_iam_role" "cluster_admin" {
   name_prefix           = "${var.cluster_prefix}"
   assume_role_policy    = "${data.aws_iam_policy_document.cluster_assume_role_policy.json}"
   force_detach_policies = true
-  tags                  = "${var.tags}"
+
+  //  tags                  = "${var.tags}"
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSClusterPolicy" {
@@ -202,7 +203,8 @@ resource "aws_iam_role" "cluster_view" {
   name_prefix           = "${var.cluster_prefix}"
   assume_role_policy    = "${data.aws_iam_policy_document.cluster_assume_role_policy.json}"
   force_detach_policies = true
-  tags                  = "${var.tags}"
+
+  //  tags                  = "${var.tags}"
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_view_AmazonEKSClusterPolicy" {
