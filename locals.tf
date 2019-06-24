@@ -56,7 +56,7 @@ locals {
     {
       role_arn = "${aws_iam_role.cluster_view.arn}"
       username = "view"
-      group    = "system:basic-user"
+      group    = "view"
     },
   ]
 

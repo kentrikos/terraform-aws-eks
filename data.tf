@@ -13,5 +13,12 @@ data "aws_iam_policy_document" "cluster_assume_role_policy" {
         "eks.amazonaws.com",
       ]
     }
+
+    principals {
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.id}:root"]
+      type        = "AWS"
+    }
   }
 }
+
+data "aws_caller_identity" "current" {}
