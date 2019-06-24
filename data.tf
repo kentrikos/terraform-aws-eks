@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "cluster_assume_role_policy" {
     }
 
     principals {
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.id}:root"]
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
       type        = "AWS"
     }
   }
