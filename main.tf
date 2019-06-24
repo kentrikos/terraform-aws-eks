@@ -15,7 +15,7 @@ module "eks" {
   cluster_version                            = "${var.cluster_version}"
 
   map_roles          = "${local.map_roles}"
-  map_roles_count    = "${length(local.map_roles)}"
+  map_roles_count    = "${local.map_roles_count}"
   map_users          = "${var.map_users}"
   map_users_count    = "${var.map_users_count}"
   map_accounts       = "${var.map_accounts}"
