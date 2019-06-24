@@ -60,6 +60,6 @@ locals {
     },
   ]
 
-  map_roles       = "${list(merge(local.maps_roles_default,var.map_roles))}"
+  map_roles       = "${concat(local.maps_roles_default,var.map_roles)}"
   map_roles_count = "${length(local.map_roles)}"
 }
