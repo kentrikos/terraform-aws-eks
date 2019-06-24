@@ -14,20 +14,8 @@ module "eks" {
   worker_additional_security_group_ids       = ["${aws_security_group.all_worker_additional.id}"]
   cluster_version                            = "${var.cluster_version}"
 
-  map_roles = [
-    {
-      role_arn = "${aws_iam_role.cluster_admin.arn}"
-      username = "admin"
-      group    = "system:masters"
-    },
-    {
-      role_arn = "${aws_iam_role.cluster_view.arn}"
-      username = "view"
-      group    = "system:basic-user"
-    },
-  ]
-
-  map_roles_count    = 2
+  map_roles          = "${local.map_roles}"
+  map_roles_count    = "${local.map_roles_count}"
   map_users          = "${var.map_users}"
   map_users_count    = "${var.map_users_count}"
   map_accounts       = "${var.map_accounts}"
@@ -185,8 +173,6 @@ resource "aws_iam_role" "cluster_admin" {
   name_prefix           = "${var.cluster_prefix}"
   assume_role_policy    = "${data.aws_iam_policy_document.cluster_assume_role_policy.json}"
   force_detach_policies = true
-
-  //  tags                  = "${var.tags}"
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSClusterPolicy" {
@@ -203,8 +189,6 @@ resource "aws_iam_role" "cluster_view" {
   name_prefix           = "${var.cluster_prefix}"
   assume_role_policy    = "${data.aws_iam_policy_document.cluster_assume_role_policy.json}"
   force_detach_policies = true
-
-  //  tags                  = "${var.tags}"
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_view_AmazonEKSClusterPolicy" {
