@@ -62,3 +62,12 @@ output "ingress_service_nodeport_http" {
   description = "Port number for ingress (valid only if exposed via NodePort)"
   value       = "${var.ingress_service_nodeport_http}"
 }
+
+output "cluster_roles" {
+  description = "Cluster roles to assueme for EKS"
+
+  value = <<ROLES
+    Admin role = ${aws_iam_role.cluster_admin.arn}
+    View  role = ${aws_iam_role.cluster_view.arn}
+ROLES
+}

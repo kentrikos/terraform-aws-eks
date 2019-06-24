@@ -170,7 +170,7 @@ resource "null_resource" "install_ingress" {
 }
 
 resource "aws_iam_role" "cluster_admin" {
-  name_prefix           = "${var.cluster_prefix}"
+  name                  = "${var.cluster_prefix}-cluster-admin"
   assume_role_policy    = "${data.aws_iam_policy_document.cluster_assume_role_policy.json}"
   force_detach_policies = true
 }
@@ -186,7 +186,7 @@ resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSServicePolicy"
 }
 
 resource "aws_iam_role" "cluster_view" {
-  name_prefix           = "${var.cluster_prefix}"
+  name                  = "${var.cluster_prefix}-cluster-view"
   assume_role_policy    = "${data.aws_iam_policy_document.cluster_assume_role_policy.json}"
   force_detach_policies = true
 }
