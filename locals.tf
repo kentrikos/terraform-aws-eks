@@ -49,17 +49,17 @@ locals {
 
   maps_roles_default = [
     {
-      role_arn = "${var.enable_default_roles ?  aws_iam_role.cluster_admin.arn : ""}"
+      role_arn = "${var.enable_default_roles ? aws_iam_role.cluster_admin.arn : ""}"
       username = "admin"
       group    = "system:masters"
     },
     {
-      role_arn = "${var.enable_default_roles ?  aws_iam_role.cluster_view.arn : ""}"
+      role_arn = "${var.enable_default_roles ? aws_iam_role.cluster_view.arn : ""}"
       username = "view"
       group    = "view"
     },
   ]
 
-  map_roles       = "${concat(local.maps_roles_default,var.map_roles)}"
-  map_roles_count = "${var.enable_default_roles ? length(var.map_roles) +2 : length(var.map_roles) }" # +2 is beacue terraform 0.11 issue with count
+  map_roles       = "${concat(local.maps_roles_default, var.map_roles)}"
+  map_roles_count = "${var.enable_default_roles ? length(var.map_roles) + 2 : length(var.map_roles)}" # +2 is beacue terraform 0.11 issue with count
 }

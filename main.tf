@@ -14,7 +14,7 @@ module "eks" {
   worker_additional_security_group_ids       = ["${aws_security_group.all_worker_additional.id}"]
   cluster_version                            = "${var.cluster_version}"
 
-  map_roles          = "${var.enable_default_roles  ? local.map_roles : var.map_roles}"
+  map_roles          = "${local.map_roles}"
   map_roles_count    = "${local.map_roles_count}"
   map_users          = "${var.map_users}"
   map_users_count    = "${var.map_users_count}"
@@ -73,7 +73,7 @@ data "template_file" "proxy_environment_variables" {
 }
 
 resource "null_resource" "proxy_environment_variables" {
-  count      = "${var.http_proxy != "" ? 1 : 0 }"
+  count      = "${var.http_proxy != "" ? 1 : 0}"
   depends_on = ["module.eks"]
 
   provisioner "local-exec" {
@@ -82,7 +82,7 @@ resource "null_resource" "proxy_environment_variables" {
 }
 
 resource "null_resource" "master_config_services_proxy" {
-  count      = "${var.http_proxy != "" ? length(local.master_config_services_proxy) : 0 }"
+  count      = "${var.http_proxy != "" ? length(local.master_config_services_proxy) : 0}"
   depends_on = ["module.eks", "null_resource.proxy_environment_variables"]
 
   provisioner "local-exec" {

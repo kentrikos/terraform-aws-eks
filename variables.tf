@@ -161,5 +161,5 @@ variable "map_users_count" {
 
 variable "enable_default_roles" {
   description = "Enable creation of default roles to assume"
-  default     = false
+  default     = true
 }
