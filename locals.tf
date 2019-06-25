@@ -60,6 +60,6 @@ locals {
     },
   ]
 
-  map_roles       = "${var.enable_default_roles ? concat(local.maps_roles_default,var.map_roles) : var.map_roles }"
-  map_roles_count = "${var.enable_default_roles ? length(var.map_roles) +2 : length(var.map_roles) }"               # +2 is beacue terraform 0.11 issue with count
+  map_roles       = "${concat(local.maps_roles_default,var.map_roles)}"
+  map_roles_count = "${var.enable_default_roles ? length(var.map_roles) +2 : length(var.map_roles) }" # +2 is beacue terraform 0.11 issue with count
 }
