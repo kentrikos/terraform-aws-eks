@@ -32,7 +32,7 @@ Depending on your need, go to the appropriate folder and run:
 | cluster\_version | Version of k8s to use (eks version is derived from here) | string | `"1.11"` | no |
 | desired\_worker\_nodes | Desired amount of worker nodes (needs to be => then minimum worker nodes) | string | `"1"` | no |
 | enable\_cluster\_autoscaling | Turn autoscaling on for your worker group | string | `"false"` | no |
-| enable\_default\_roles | Enable creation of default roles to assume | string | `"false"` | no |
+| enable\_default\_roles | Enable creation of default roles to assume | string | `"true"` | no |
 | enable\_pod\_autoscaling | Enable horizontal pod autoscaling | string | `"false"` | no |
 | http\_proxy | IP[:PORT] address and  port of HTTP proxy for your environment | string | `""` | no |
 | ingress\_deploy | Deploy Kubernetes Ingress controller on the cluster (requires install_helm=true) | string | `"false"` | no |
