@@ -67,7 +67,7 @@ output "cluster_roles" {
   description = "Cluster roles to assueme for EKS"
 
   value = <<ROLES
-    Admin role = ${aws_iam_role.cluster_admin.arn}
-    View  role = ${aws_iam_role.cluster_view.arn}
+    Admin role = ${join("",aws_iam_role.cluster_admin.*.arn)}
+    View  role = ${join("",aws_iam_role.cluster_view.*.arn)}
 ROLES
 }

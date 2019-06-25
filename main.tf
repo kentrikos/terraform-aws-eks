@@ -170,33 +170,39 @@ resource "null_resource" "install_ingress" {
 }
 
 resource "aws_iam_role" "cluster_admin" {
+  count                 = "${var.enable_default_roles}"
   name                  = "${var.cluster_prefix}-cluster-admin"
   assume_role_policy    = "${data.aws_iam_policy_document.cluster_assume_role_policy.json}"
   force_detach_policies = true
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSClusterPolicy" {
+  count      = "${var.enable_default_roles}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = "${aws_iam_role.cluster_admin.name}"
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSServicePolicy" {
+  count      = "${var.enable_default_roles}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
   role       = "${aws_iam_role.cluster_admin.name}"
 }
 
 resource "aws_iam_role" "cluster_view" {
+  count                 = "${var.enable_default_roles}"
   name                  = "${var.cluster_prefix}-cluster-view"
   assume_role_policy    = "${data.aws_iam_policy_document.cluster_assume_role_policy.json}"
   force_detach_policies = true
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_view_AmazonEKSClusterPolicy" {
+  count      = "${var.enable_default_roles}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = "${aws_iam_role.cluster_view.name}"
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_view_AmazonEKSServicePolicy" {
+  count      = "${var.enable_default_roles}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
   role       = "${aws_iam_role.cluster_view.name}"
 }

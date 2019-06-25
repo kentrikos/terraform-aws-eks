@@ -19,7 +19,7 @@ The following tools are required for deployment (the versions are needed to supp
 
 Depending on your need, go to the appropriate folder and run:  
 
-  * terraform init && terraform apply  
+  * terraform init && terraform apply
 
 ## Inputs
 
@@ -32,6 +32,7 @@ Depending on your need, go to the appropriate folder and run:
 | cluster\_version | Version of k8s to use (eks version is derived from here) | string | `"1.11"` | no |
 | desired\_worker\_nodes | Desired amount of worker nodes (needs to be => then minimum worker nodes) | string | `"1"` | no |
 | enable\_cluster\_autoscaling | Turn autoscaling on for your worker group | string | `"false"` | no |
+| enable\_default\_roles | Enable creation of default roles to assume | string | `"false"` | no |
 | enable\_pod\_autoscaling | Enable horizontal pod autoscaling | string | `"false"` | no |
 | http\_proxy | IP[:PORT] address and  port of HTTP proxy for your environment | string | `""` | no |
 | ingress\_deploy | Deploy Kubernetes Ingress controller on the cluster (requires install_helm=true) | string | `"false"` | no |
@@ -39,6 +40,12 @@ Depending on your need, go to the appropriate folder and run:
 | ingress\_service\_type | Type of ingress controller service to create | string | `"NodePort"` | no |
 | install\_helm | Install Helm during the deployment of the module | string | `"true"` | no |
 | key\_name | Key pair to use to access the instance created by the ASG/LC | string | n/a | yes |
+| map\_accounts | Additional AWS account numbers to add to the aws-auth configmap. See terraform-aws-modules-eks examples/basic/variables.tf for example format. | list | `<list>` | no |
+| map\_accounts\_count | The count of accounts in the map_accounts list. | string | `"0"` | no |
+| map\_roles | Additional IAM roles to add to the aws-auth configmap. See terraform-aws-modules-eks examples/basic/variables.tf for example format. | list | `<list>` | no |
+| map\_roles\_count | The count of roles in the map_roles list. | string | `"0"` | no |
+| map\_users | Additional IAM users to add to the aws-auth configmap. See terraform-aws-modules-eksexamples/basic/variables.tf for example format. | list | `<list>` | no |
+| map\_users\_count | The count of roles in the map_users list. | string | `"0"` | no |
 | max\_worker\_nodes | Maximum amount of worker nodes to spin up | string | `"6"` | no |
 | min\_worker\_nodes | Minimum amount of worker nodes (needs to be <= then desired worker nodes). | string | `"1"` | no |
 | no\_proxy | Endpoint that do not need to go through proxy | string | `""` | no |
@@ -88,6 +95,7 @@ Also when the terraform script is finished, it will output the following to the 
 | cluster\_certificate\_authority\_data | Nested attribute containing certificate-authority-data for your cluster. This is the base64 encoded certificate data required to communicate with your cluster. |
 | cluster\_endpoint | Endpoint for EKS control plane. |
 | cluster\_id | Name of the EKS cluster |
+| cluster\_roles | Cluster roles to assueme for EKS |
 | cluster\_security\_group\_id | Security group ID attached to the EKS cluster. |
 | cluster\_version | The Kubernetes server version for the EKS cluster. |
 | config\_map\_aws\_auth |  |
