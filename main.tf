@@ -113,7 +113,7 @@ data "template_file" "helm_rbac_config" {
 }
 
 resource "null_resource" "initialize_helm" {
-  count = local.enable_helm ? 1 : 0
+  count = local.enable_helm
 
   provisioner "local-exec" {
     command = "echo \"${data.template_file.helm_rbac_config.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
