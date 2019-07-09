@@ -3,7 +3,7 @@ module "eks" {
   version = "5.0.0"
 
   cluster_name                               = var.cluster_prefix
-  subnets                                    = merge(concat(var.private_subnets, var.public_subnets))
+  subnets                                    = concat(var.private_subnets, var.public_subnets)
   write_kubeconfig                           = true
   config_output_path                         = var.outputs_directory
   tags                                       = var.tags
