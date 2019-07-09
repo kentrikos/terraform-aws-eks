@@ -72,4 +72,3 @@ echo ""
 echo "$dnspod is running...  continuing."
 echo ""
 exit 0
-

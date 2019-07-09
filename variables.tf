@@ -7,12 +7,12 @@ variable "vpc_id" {
 }
 
 variable "private_subnets" {
-  type        = "list"
+  type        = list(string)
   description = "All private subnets in your VPC"
 }
 
 variable "public_subnets" {
-  type        = "list"
+  type        = list(string)
   default     = []
   description = "Public subnets in your VPC EKS can use"
 }
@@ -61,13 +61,13 @@ variable "worker_node_instance_type" {
 
 variable "aws_authenticator_env_variables" {
   description = "A map of environment variables to use in the eks kubeconfig for aws authenticator"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
 variable "tags" {
   description = "Map of tags to apply to deployed resources"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
@@ -83,7 +83,7 @@ variable "enable_pod_autoscaling" {
 
 variable "cluster_version" {
   description = "Version of k8s to use (eks version is derived from here)"
-  default     = "1.11"
+  default     = "1.13"
 }
 
 variable "protect_cluster_from_scale_in" {
@@ -112,51 +112,33 @@ variable "ingress_service_nodeport_http" {
 }
 
 variable "allowed_worker_ssh_cidrs" {
-  type        = "list"
+  type        = list(string)
   description = "List of CIDR ranges to allow SSH access into worker nodes"
   default     = []
 }
 
 variable "allowed_worker_nodeport_cidrs" {
-  type        = "list"
+  type        = list(string)
   description = "List of CIDR ranges allowed to connect to services exposed with NodePort in the cluster that are deployed by the module"
   default     = []
 }
 
 variable "map_accounts" {
   description = "Additional AWS account numbers to add to the aws-auth configmap. See terraform-aws-modules-eks examples/basic/variables.tf for example format."
-  type        = "list"
+  type        = list(string)
   default     = []
-}
-
-variable "map_accounts_count" {
-  description = "The count of accounts in the map_accounts list."
-  type        = "string"
-  default     = 0
 }
 
 variable "map_roles" {
   description = "Additional IAM roles to add to the aws-auth configmap. See terraform-aws-modules-eks examples/basic/variables.tf for example format."
-  type        = "list"
+  type        = list(string)
   default     = []
-}
-
-variable "map_roles_count" {
-  description = "The count of roles in the map_roles list."
-  type        = "string"
-  default     = 0
 }
 
 variable "map_users" {
   description = "Additional IAM users to add to the aws-auth configmap. See terraform-aws-modules-eksexamples/basic/variables.tf for example format."
-  type        = "list"
+  type        = list(map(string))
   default     = []
-}
-
-variable "map_users_count" {
-  description = "The count of roles in the map_users list."
-  type        = "string"
-  default     = 0
 }
 
 variable "enable_default_roles" {
