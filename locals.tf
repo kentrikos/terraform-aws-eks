@@ -9,7 +9,7 @@ locals {
       key_name              = var.key_name                                       # The key name that should be used for the instances in the autoscaling group
       pre_userdata          = data.template_file.http_proxy_workergroup.rendered # userdata to pre-append to the default userdata.
       additional_userdata   = ""                                                 # userdata to append to the default userdata.
-      subnets               = join(",", var.private_subnets)                     # A comma delimited string of subnets to place the worker nodes in. i.e. subnet-123,subnet-456,subnet-789
+      subnets               = var.private_subnets                     # A list of string of subnets to place the worker nodes in. i.e. subnet-123,subnet-456,subnet-789
       autoscaling_enabled   = var.enable_cluster_autoscaling
       protect_from_scale_in = var.protect_cluster_from_scale_in
     },
