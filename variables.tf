@@ -131,7 +131,7 @@ variable "map_accounts" {
 
 variable "map_roles" {
   description = "Additional IAM roles to add to the aws-auth configmap. See terraform-aws-modules-eks examples/basic/variables.tf for example format."
-  type        = list(string)
+  type        = list(map(string))
   default     = []
 }
 
