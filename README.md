@@ -11,6 +11,10 @@ The following tools are required for deployment (the versions are needed to supp
   * **aws-iam-authenticator**  
   * **awscli** (version 1.16+)
 
+# Notes
+
+Terraform version  `>= 0.12`
+
 ## Usage
 
 #### Two examples have been provided.  
@@ -25,38 +29,35 @@ Depending on your need, go to the appropriate folder and run:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| allowed\_worker\_nodeport\_cidrs | List of CIDR ranges allowed to connect to services exposed with NodePort in the cluster that are deployed by the module | list | `<list>` | no |
-| allowed\_worker\_ssh\_cidrs | List of CIDR ranges to allow SSH access into worker nodes | list | `<list>` | no |
-| aws\_authenticator\_env\_variables | A map of environment variables to use in the eks kubeconfig for aws authenticator | map | `<map>` | no |
-| cluster\_prefix | Name prefix of your EKS cluster | string | n/a | yes |
-| cluster\_version | Version of k8s to use (eks version is derived from here) | string | `"1.11"` | no |
-| desired\_worker\_nodes | Desired amount of worker nodes (needs to be => then minimum worker nodes) | string | `"1"` | no |
-| enable\_cluster\_autoscaling | Turn autoscaling on for your worker group | string | `"false"` | no |
-| enable\_default\_roles | Enable creation of default roles to assume | string | `"true"` | no |
-| enable\_pod\_autoscaling | Enable horizontal pod autoscaling | string | `"false"` | no |
-| http\_proxy | IP[:PORT] address and  port of HTTP proxy for your environment | string | `""` | no |
-| ingress\_deploy | Deploy Kubernetes Ingress controller on the cluster (requires install_helm=true) | string | `"false"` | no |
-| ingress\_service\_nodeport\_http | For NodePort type of ingress service, it sets the nodePort that maps to the Ingress' port 80 | string | `"32080"` | no |
-| ingress\_service\_type | Type of ingress controller service to create | string | `"NodePort"` | no |
-| install\_helm | Install Helm during the deployment of the module | string | `"true"` | no |
-| key\_name | Key pair to use to access the instance created by the ASG/LC | string | n/a | yes |
-| map\_accounts | Additional AWS account numbers to add to the aws-auth configmap. See terraform-aws-modules-eks examples/basic/variables.tf for example format. | list | `<list>` | no |
-| map\_accounts\_count | The count of accounts in the map_accounts list. | string | `"0"` | no |
-| map\_roles | Additional IAM roles to add to the aws-auth configmap. See terraform-aws-modules-eks examples/basic/variables.tf for example format. | list | `<list>` | no |
-| map\_roles\_count | The count of roles in the map_roles list. | string | `"0"` | no |
-| map\_users | Additional IAM users to add to the aws-auth configmap. See terraform-aws-modules-eksexamples/basic/variables.tf for example format. | list | `<list>` | no |
-| map\_users\_count | The count of roles in the map_users list. | string | `"0"` | no |
-| max\_worker\_nodes | Maximum amount of worker nodes to spin up | string | `"6"` | no |
-| min\_worker\_nodes | Minimum amount of worker nodes (needs to be <= then desired worker nodes). | string | `"1"` | no |
-| no\_proxy | Endpoint that do not need to go through proxy | string | `""` | no |
-| outputs\_directory | The local folder path to store output files. Must end with '/' . | string | `"./output/"` | no |
-| private\_subnets | All private subnets in your VPC | list | n/a | yes |
-| protect\_cluster\_from\_scale\_in | Protect nodes from scale in: # of nodes grow, will not shrink. | string | `"false"` | no |
-| public\_subnets | Public subnets in your VPC EKS can use | list | `<list>` | no |
-| region | AWS region | string | n/a | yes |
-| tags | Map of tags to apply to deployed resources | map | `<map>` | no |
-| vpc\_id | ID of VPC to deploy the cluster | string | n/a | yes |
-| worker\_node\_instance\_type |  | string | `"t3.small"` | no |
+| `allowed_worker_nodeport_cidrs` | List of CIDR ranges allowed to connect to services exposed with NodePort in the cluster that are deployed by the module | list(string) | n/a |  yes |
+| `allowed_worker_ssh_cidrs` | List of CIDR ranges to allow SSH access into worker nodes | list(string) | n/a |  yes |
+| `aws_authenticator_env_variables` | A map of environment variables to use in the eks kubeconfig for aws authenticator | map(string) | n/a |  yes |
+| `cluster_prefix` | Name prefix of your EKS cluster | n/a | n/a |  yes |
+| `cluster_version` | Version of k8s to use (eks version is derived from here) | n/a | `"1.13"` |  no |
+| `desired_worker_nodes` | Desired amount of worker nodes (needs to be => then minimum worker nodes) | n/a | `"1"` |  no |
+| `enable_cluster_autoscaling` | Turn autoscaling on for your worker group | n/a | n/a |  yes |
+| `enable_default_roles` | Enable creation of default roles to assume | n/a | `true` |  no |
+| `enable_pod_autoscaling` | Enable horizontal pod autoscaling | n/a | n/a |  yes |
+| `http_proxy` | IP[:PORT] address and  port of HTTP proxy for your environment | n/a | n/a |  yes |
+| `ingress_deploy` | Deploy Kubernetes Ingress controller on the cluster (requires install_helm=true) | n/a | n/a |  yes |
+| `ingress_service_nodeport_http` | For NodePort type of ingress service, it sets the nodePort that maps to the Ingress' port 80 | n/a | `"32080"` |  no |
+| `ingress_service_type` | Type of ingress controller service to create | n/a | `"NodePort"` |  no |
+| `install_helm` | Install Helm during the deployment of the module | n/a | `true` |  no |
+| `key_name` | Key pair to use to access the instance created by the ASG/LC | n/a | n/a |  yes |
+| `map_accounts` | Additional AWS account numbers to add to the aws-auth configmap. See terraform-aws-modules-eks examples/basic/variables.tf for example format. | list(string) | n/a |  yes |
+| `map_roles` | Additional IAM roles to add to the aws-auth configmap. See terraform-aws-modules-eks examples/basic/variables.tf for example format. | list(map(string)) | n/a |  yes |
+| `map_users` | Additional IAM users to add to the aws-auth configmap. See terraform-aws-modules-eksexamples/basic/variables.tf for example format. | list(map(string)) | n/a |  yes |
+| `max_worker_nodes` | Maximum amount of worker nodes to spin up | n/a | `"6"` |  no |
+| `min_worker_nodes` | Minimum amount of worker nodes (needs to be <= then desired worker nodes). | n/a | `"1"` |  no |
+| `no_proxy` | Endpoint that do not need to go through proxy | n/a | n/a |  yes |
+| `outputs_directory` | The local folder path to store output files. Must end with '/' . | n/a | `"./output/"` |  no |
+| `private_subnets` | All private subnets in your VPC | list(string) | n/a |  yes |
+| `protect_cluster_from_scale_in` | Protect nodes from scale in: # of nodes grow, will not shrink. | n/a | n/a |  yes |
+| `public_subnets` | Public subnets in your VPC EKS can use | list(string) | n/a |  yes |
+| `region` | AWS region | n/a | n/a |  yes |
+| `tags` | Map of tags to apply to deployed resources | map(string) | n/a |  yes |
+| `vpc_id` | ID of VPC to deploy the cluster | n/a | n/a |  yes |
+| `worker_node_instance_type` | n/a | n/a | `"t3.small"` |  no |
 
 #### Example:
 
@@ -92,18 +93,19 @@ Also when the terraform script is finished, it will output the following to the 
 
 | Name | Description |
 |------|-------------|
-| cluster\_certificate\_authority\_data | Nested attribute containing certificate-authority-data for your cluster. This is the base64 encoded certificate data required to communicate with your cluster. |
-| cluster\_endpoint | Endpoint for EKS control plane. |
-| cluster\_id | Name of the EKS cluster |
-| cluster\_roles | Cluster roles to assueme for EKS |
-| cluster\_security\_group\_id | Security group ID attached to the EKS cluster. |
-| cluster\_version | The Kubernetes server version for the EKS cluster. |
-| config\_map\_aws\_auth |  |
-| ingress\_service\_nodeport\_http | Port number for ingress (valid only if exposed via NodePort) |
-| kubeconfig | kubectl config as generated by the module. |
-| worker\_iam\_role\_arn | default IAM role ARN for EKS worker groups |
-| worker\_iam\_role\_name | default IAM role name for EKS worker groups |
-| worker\_security\_group\_id | Security group ID attached to the EKS workers. |
-| workers\_asg\_arns | IDs of the autoscaling groups containing workers. |
-| workers\_asg\_names | Names of the autoscaling groups containing workers. |
+| `cluster_certificate_authority_data` | Nested attribute containing certificate-authority-data for your cluster. This is the base64 encoded certificate data required to communicate with your cluster. |
+| `cluster_endpoint` | Endpoint for EKS control plane. |
+| `cluster_id` | Name of the EKS cluster |
+| `cluster_roles` | Cluster roles to assueme for EKS |
+| `cluster_security_group_id` | Security group ID attached to the EKS cluster. |
+| `cluster_version` | The Kubernetes server version for the EKS cluster. |
+| `config_map_aws_auth` | n/a |
+| `ingress_service_nodeport_http` | Port number for ingress (valid only if exposed via NodePort) |
+| `kubeconfig` | kubectl config as generated by the module. |
+| `worker_iam_role_arn` | default IAM role ARN for EKS worker groups |
+| `worker_iam_role_name` | default IAM role name for EKS worker groups |
+| `worker_security_group_id` | Security group ID attached to the EKS workers. |
+| `workers_asg_arns` | IDs of the autoscaling groups containing workers. |
+| `workers_asg_names` | Names of the autoscaling groups containing workers. |
+
 
