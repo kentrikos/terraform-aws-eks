@@ -9,7 +9,7 @@ locals {
       key_name              = var.key_name                                       # The key name that should be used for the instances in the autoscaling group
       pre_userdata          = data.template_file.http_proxy_workergroup.rendered # userdata to pre-append to the default userdata.
       additional_userdata   = ""                                                 # userdata to append to the default userdata.
-      subnets               = var.private_subnets                     # A list of string of subnets to place the worker nodes in. i.e. subnet-123,subnet-456,subnet-789
+      subnets               = var.private_subnets                                # A list of string of subnets to place the worker nodes in. i.e. subnet-123,subnet-456,subnet-789
       autoscaling_enabled   = var.enable_cluster_autoscaling
       protect_from_scale_in = var.protect_cluster_from_scale_in
     },
@@ -65,7 +65,6 @@ locals {
     },
   ]
 
-  map_roles       = concat(local.maps_roles_default, var.map_roles)
-  map_roles_count = var.enable_default_roles ? length(var.map_roles) + 2 : length(var.map_roles) # +2 is beacue terraform 0.11 issue with count
+  map_roles = concat(local.maps_roles_default, var.map_roles)
 }
 
