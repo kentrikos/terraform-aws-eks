@@ -130,7 +130,7 @@ resource "null_resource" "install_metrics_server" {
   count = local.enable_helm #only for pod autoscaling
 
   provisioner "local-exec" {
-    command = "helm install stable/metrics-server --name metrics-server --namespace metrics  --kubeconfig=${var.outputs_directory}kubeconfig_${var.cluster_prefix}"
+    command = "helm install stable/metrics-server --name metrics-server --namespace metrics --set args[0]=--kubelet-insecure-tls,args[1]=--kubelet-preferred-address-types=InternalIP  --kubeconfig=${var.outputs_directory}kubeconfig_${var.cluster_prefix}"
   }
 
   depends_on = [null_resource.initialize_helm]

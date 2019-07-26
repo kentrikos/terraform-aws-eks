@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Required terraform version updated to `>= 0.12`
+### Fixed
+- Fix for metric-server on eks
 
 ## [2.2.0] 2019-07-04
 ### Added 
