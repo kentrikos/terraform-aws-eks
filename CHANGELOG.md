@@ -5,10 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [3.0.0] 2019-07-30
 ### Changed
 - Required terraform version updated to `>= 0.12`
 ### Fixed
 - Fix for metric-server on eks
+### BC
+- Removed map_*_count variables
 
 ## [2.2.0] 2019-07-04
 ### Added 
