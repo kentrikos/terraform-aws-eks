@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Terraform AWS provider `~> 2.21`
   - Terraform EKS Module `5.1.0`
   - AWS EKS k8s Version `1.13`
+- removed coredns (tag=kube-dns) from master_config_services_proxy variable
 - removed DNS validator (no changes are made to the core-dns deployment)
 - removed example for building an EKS cluster from EC2 instance
 
