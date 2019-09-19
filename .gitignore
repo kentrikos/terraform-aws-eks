@@ -1,6 +1,8 @@
 # General files
 .DS_Store
 .vscode
+*.org
+output/
 
 # Terraform files
 *.tfstate

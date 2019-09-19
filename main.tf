@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "5.0.0"
+  version = "5.1.0"
 
   cluster_name                               = var.cluster_prefix
   subnets                                    = concat(var.private_subnets, var.public_subnets)
@@ -92,22 +92,6 @@ resource "null_resource" "master_config_services_proxy" {
   }
 }
 
-resource "null_resource" "validate_dns" {
-  provisioner "local-exec" {
-    command = <<EOC
-    /bin/sh \
-      "${path.module}/scripts/validate_coredns.sh" "${var.outputs_directory}kubeconfig_${var.cluster_prefix}"
-    
-EOC
-
-  }
-
-  depends_on = [
-    module.eks,
-    null_resource.master_config_services_proxy,
-  ]
-}
-
 data "template_file" "helm_rbac_config" {
   template = file("${path.module}/templates/helm_rbac_config.yaml.tpl")
 }
@@ -122,8 +106,7 @@ resource "null_resource" "initialize_helm" {
   provisioner "local-exec" {
     command = "helm init --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
   }
-
-  depends_on = [null_resource.validate_dns]
+  depends_on = [null_resource.master_config_services_proxy]
 }
 
 resource "null_resource" "install_metrics_server" {

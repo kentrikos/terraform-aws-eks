@@ -39,3 +39,5 @@ variable "allowed_worker_ssh_cidrs" {
 variable "install_helm" {
   default = true
 }
+
+variable "worker_node_instance_type" {}

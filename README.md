@@ -11,17 +11,22 @@ The following tools are required for deployment (the versions are needed to supp
   * **aws-iam-authenticator**  
   * **awscli** (version 1.16+)
 
-# Notes
+## Notes
+This EKS module need the following terraform version to function:
+* Terraform version       `>= 0.12`
 
-Terraform version  `>= 0.12`
-
+Terraform is coded to use the following versions (tested):
+* Terraform AWS provider  `~> 2.21`
+* Terraform EKS Module    `5.1.0`
+* AWS EKS k8s Version     `1.13`
+  
+  
 ## Usage
 
-#### Two examples have been provided.  
-  * **desktop\_private\_VPC** - will deploy an EKS cluster from your desktop in the provided account;  
-  * **ec2\_node\_private\_VPC** - will deploy an EKS cluster from an EC2 instance in the provided account.
+#### An examples has been provided here:  
+  * **desktop\_private\_VPC** - will deploy an EKS cluster from your desktop in the provided account. 
 
-Depending on your need, go to the appropriate folder and run:  
+Depending on your need, go to the appropriate folder provide the needed variables and run:  
 
   * terraform init && terraform apply
 
