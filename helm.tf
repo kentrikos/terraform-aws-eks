@@ -66,11 +66,14 @@ resource "null_resource" "install_ingress" {
 
   provisioner "local-exec" {
     command = <<EOC
-        helm install --replace --wait --name ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}" \
+        helm upgrade --install  ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}" \
         stable/nginx-ingress \
         "${local.ingress_helm_variables}"
 EOC
   }
 
   depends_on = [null_resource.initialize_helm]
+  triggers {
+    ingres_default_value = local.ingres_default_value
+  }
 }
