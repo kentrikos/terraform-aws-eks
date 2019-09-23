@@ -57,7 +57,7 @@ locals {
     "controller.service.enableHttps"    = false
   }
 
-  ingress_helm_variables = [for k, v in local.ingres_default_value : format("--set %s=%s", k, v)]
+  ingress_helm_variables = join(" ", [for k, v in local.ingres_default_value : format("--set %s=%s", k, v)])
 
 }
 
@@ -69,14 +69,8 @@ resource "null_resource" "install_ingress" {
         helm install --replace --wait --name ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}" \
         stable/nginx-ingress \
         "${local.ingress_helm_variables}"
-
 EOC
-
   }
 
   depends_on = [null_resource.initialize_helm]
 }
-
-
-
-
