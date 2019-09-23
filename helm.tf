@@ -50,11 +50,11 @@ resource "null_resource" "initialize_cluster_autoscaling" {
 
 locals {
   ingres_default_value = {
-    rback.create                      = true
-    controller.service.type           = var.ingress_service_type
-    controller.service.nodePorts.http = var.ingress_service_nodeport_http
-    controller.service.enableHttp     = true
-    controller.service.enableHttps    = false
+    "rback.create"                      = true
+    "controller.service.type"           = var.ingress_service_type
+    "controller.service.nodePorts.http" = var.ingress_service_nodeport_http
+    "controller.service.enableHttp"     = true
+    "controller.service.enableHttps"    = false
   }
 
   ingress_helm_variables = [for k, v in local.ingres_default_value : format("--set %s=%s", k, v)]
