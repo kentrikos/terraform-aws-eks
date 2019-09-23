@@ -57,7 +57,8 @@ locals {
     "controller.service.enableHttps"    = false
   }
 
-  ingress_helm_variables = join(" ", [for k, v in local.ingres_default_value : format("--set %s=%s", k, v)])
+  ingres_merged_value    = concat(local.ingres_default_value, var.ingress_helm_values)
+  ingress_helm_variables = join(" ", [for k, v in local.ingres_merged_value : format("--set %s=%s", k, v)])
 
 }
 
