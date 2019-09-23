@@ -52,12 +52,12 @@ locals {
     {
       role_arn = var.enable_default_roles ? aws_iam_role.cluster_admin[0].arn : ""
       username = "admin"
-      group    = "system:masters"
+      group    = ["system:masters"]
     },
     {
       role_arn = var.enable_default_roles ? aws_iam_role.cluster_view[0].arn : ""
       username = "view"
-      group    = "view"
+      group    = ["view"]
     },
   ]
 
