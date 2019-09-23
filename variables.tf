@@ -147,7 +147,7 @@ variable "map_roles" {
 variable "map_users" {
   description = "Additional IAM users to add to the aws-auth configmap. See terraform-aws-modules-eksexamples/basic/variables.tf for example format."
   type = list(object({
-    rolearn  = string
+    userarn  = string
     username = string
     groups   = list(string)
   }))
