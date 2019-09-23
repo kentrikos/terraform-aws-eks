@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "5.1.0"
+  version = "6.0.0"
 
   cluster_name                               = var.cluster_prefix
   subnets                                    = concat(var.private_subnets, var.public_subnets)
@@ -92,110 +92,41 @@ resource "null_resource" "master_config_services_proxy" {
   }
 }
 
-data "template_file" "helm_rbac_config" {
-  template = file("${path.module}/templates/helm_rbac_config.yaml.tpl")
-}
-
-resource "null_resource" "initialize_helm" {
-  count = local.enable_helm
-
-  provisioner "local-exec" {
-    command = "echo \"${data.template_file.helm_rbac_config.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
-  }
-
-  provisioner "local-exec" {
-    command = "helm init --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
-  }
-  depends_on = [null_resource.master_config_services_proxy]
-}
-
-resource "null_resource" "install_metrics_server" {
-  count = local.enable_helm #only for pod autoscaling
-
-  provisioner "local-exec" {
-    command = "helm install stable/metrics-server --name metrics-server --namespace metrics --set args[0]=--kubelet-insecure-tls,args[1]=--kubelet-preferred-address-types=InternalIP  --kubeconfig=${var.outputs_directory}kubeconfig_${var.cluster_prefix}"
-  }
-
-  depends_on = [null_resource.initialize_helm]
-}
-
-data "template_file" "cluster_autoscaling" {
-  template = file("${path.module}/templates/cluster_autoscaling.yaml.tpl")
-
-  vars = {
-    http_proxy = var.http_proxy
-    https_proxy = var.http_proxy
-    no_proxy = local.no_proxy_merged
-    region = var.region
-    cluster_name = var.cluster_prefix
-  }
-}
-
-resource "null_resource" "initialize_cluster_autoscaling" {
-  count = local.enable_cluster_autoscaling ? 1 : 0
-
-  provisioner "local-exec" {
-    command = "echo \"${data.template_file.cluster_autoscaling.rendered}\" | helm install -f - stable/cluster-autoscaler --name vertical-scaler --namespace=kube-system --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
-  }
-
-  depends_on = [null_resource.initialize_helm]
-}
-
-resource "null_resource" "install_ingress" {
-  count = var.ingress_deploy ? 1 : 0
-
-  provisioner "local-exec" {
-    command = <<EOC
-        helm install --replace --wait --name ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}" \
-        stable/nginx-ingress \
-        --set rback.create=true \
-        --set controller.service.type=NodePort \
-        --set controller.service.nodePorts.http="${var.ingress_service_nodeport_http}" \
-        --set controller.service.enableHttp=true \
-        --set controller.service.enableHttps=false
-    
-EOC
-
-}
-
-depends_on = [null_resource.initialize_helm]
-}
-
 resource "aws_iam_role" "cluster_admin" {
-count                 = var.enable_default_roles ? 1 : 0
-name                  = "${var.cluster_prefix}-cluster-admin"
-assume_role_policy    = data.aws_iam_policy_document.cluster_assume_role_policy.json
-force_detach_policies = true
+  count                 = var.enable_default_roles ? 1 : 0
+  name                  = "${var.cluster_prefix}-cluster-admin"
+  assume_role_policy    = data.aws_iam_policy_document.cluster_assume_role_policy.json
+  force_detach_policies = true
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSClusterPolicy" {
-count      = var.enable_default_roles ? 1 : 0
-policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-role       = aws_iam_role.cluster_admin[0].name
+  count      = var.enable_default_roles ? 1 : 0
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.cluster_admin[0].name
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_admin_AmazonEKSServicePolicy" {
-count      = var.enable_default_roles ? 1 : 0
-policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
-role       = aws_iam_role.cluster_admin[0].name
+  count      = var.enable_default_roles ? 1 : 0
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
+  role       = aws_iam_role.cluster_admin[0].name
 }
 
 resource "aws_iam_role" "cluster_view" {
-count                 = var.enable_default_roles ? 1 : 0
-name                  = "${var.cluster_prefix}-cluster-view"
-assume_role_policy    = data.aws_iam_policy_document.cluster_assume_role_policy.json
-force_detach_policies = true
+  count                 = var.enable_default_roles ? 1 : 0
+  name                  = "${var.cluster_prefix}-cluster-view"
+  assume_role_policy    = data.aws_iam_policy_document.cluster_assume_role_policy.json
+  force_detach_policies = true
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_view_AmazonEKSClusterPolicy" {
-count      = var.enable_default_roles ? 1 : 0
-policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-role       = aws_iam_role.cluster_view[0].name
+  count      = var.enable_default_roles ? 1 : 0
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.cluster_view[0].name
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_view_AmazonEKSServicePolicy" {
-count      = var.enable_default_roles ? 1 : 0
-policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
-role       = aws_iam_role.cluster_view[0].name
+  count      = var.enable_default_roles ? 1 : 0
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
+  role       = aws_iam_role.cluster_view[0].name
 }
 

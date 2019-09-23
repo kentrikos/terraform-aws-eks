@@ -111,6 +111,11 @@ variable "ingress_service_nodeport_http" {
   default     = "32080"
 }
 
+variable "ingress_helm_values" {
+  default     = {}
+  description = "For helm ingress chart values in k => v map"
+}
+
 variable "allowed_worker_ssh_cidrs" {
   type        = list(string)
   description = "List of CIDR ranges to allow SSH access into worker nodes"
