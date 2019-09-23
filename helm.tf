@@ -74,6 +74,6 @@ EOC
 
   depends_on = [null_resource.initialize_helm]
   triggers = {
-    ingres_default_value = local.ingres_default_value
+    ingress_helm_variables = local.ingress_helm_variables
   }
 }
