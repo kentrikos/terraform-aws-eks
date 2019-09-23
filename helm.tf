@@ -70,6 +70,13 @@ resource "null_resource" "install_ingress" {
         helm upgrade --install  ingress stable/nginx-ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}" ${local.ingress_helm_variables}
 EOC
   }
+  provisioner "local-exec" {
+    when = "destroy"
+
+    command = <<EOT
+      helm delete --purge  ingress --namespace=kube-system
+EOT
+  }
 
   depends_on = [null_resource.initialize_helm]
   triggers = {
