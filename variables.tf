@@ -83,7 +83,7 @@ variable "enable_pod_autoscaling" {
 
 variable "cluster_version" {
   description = "Version of k8s to use (eks version is derived from here)"
-  default     = "1.13"
+  default     = "1.14"
 }
 
 variable "protect_cluster_from_scale_in" {

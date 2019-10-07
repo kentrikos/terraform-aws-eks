@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- modified dependencies versions to latest available:
+  - Terraform AWS provider `~> 2.31`
+  - Terraform EKS Module `6.0.1`
+  - AWS EKS k8s Version `1.14`
+
 ## [3.0.1] 2019-08-01
 
 ### Changed
