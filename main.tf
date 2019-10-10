@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "6.0.1"
+  version = "6.0.2"
 
   cluster_name                               = var.cluster_prefix
   subnets                                    = concat(var.private_subnets, var.public_subnets)
@@ -17,6 +17,8 @@ module "eks" {
   map_users    = var.map_users
   map_accounts = var.map_accounts
 
+  cluster_enabled_log_types     = var.cluster_enabled_log_types
+  cluster_log_retention_in_days = var.cluster_log_retention_in_days
 }
 
 resource "aws_security_group" "all_worker_additional" {
