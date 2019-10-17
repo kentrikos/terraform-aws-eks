@@ -7,12 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.0] 2019-10-17
+
 ### Changed
 
 - modified dependencies versions to latest available:
   - Terraform AWS provider `~> 2.31`
-  - Terraform EKS Module `6.0.1`
+  - Terraform EKS Module `6.0.2`
   - AWS EKS k8s Version `1.14`
+
+### BC
+
+- Variable type changed for `map_users` and `map_roles` to align with upstream eks module
 
 ## [3.0.1] 2019-08-01
 
