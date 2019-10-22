@@ -37,14 +37,17 @@ Depending on your need, go to the appropriate folder provide the needed variable
 | `allowed_worker_nodeport_cidrs` | List of CIDR ranges allowed to connect to services exposed with NodePort in the cluster that are deployed by the module | list(string) | n/a |  yes |
 | `allowed_worker_ssh_cidrs` | List of CIDR ranges to allow SSH access into worker nodes | list(string) | n/a |  yes |
 | `aws_authenticator_env_variables` | A map of environment variables to use in the eks kubeconfig for aws authenticator | map(string) | n/a |  yes |
+| `cluster_enabled_log_types` | A list of the desired control plane logging to enable. [api,audit,authenticator,controllerManager,scheduler] For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) | list(string) | n/a |  yes |
+| `cluster_log_retention_in_days` | Number of days to retain log events. Default retention - 90 days. | number | `90` |  no |
 | `cluster_prefix` | Name prefix of your EKS cluster | n/a | n/a |  yes |
-| `cluster_version` | Version of k8s to use (eks version is derived from here) | n/a | `"1.13"` |  no |
+| `cluster_version` | Version of k8s to use (eks version is derived from here) | n/a | `"1.14"` |  no |
 | `desired_worker_nodes` | Desired amount of worker nodes (needs to be => then minimum worker nodes) | n/a | `"1"` |  no |
 | `enable_cluster_autoscaling` | Turn autoscaling on for your worker group | n/a | n/a |  yes |
 | `enable_default_roles` | Enable creation of default roles to assume | n/a | `true` |  no |
 | `enable_pod_autoscaling` | Enable horizontal pod autoscaling | n/a | n/a |  yes |
 | `http_proxy` | IP[:PORT] address and  port of HTTP proxy for your environment | n/a | n/a |  yes |
 | `ingress_deploy` | Deploy Kubernetes Ingress controller on the cluster (requires install_helm=true) | n/a | n/a |  yes |
+| `ingress_helm_values` | For helm ingress chart values in k => v map | n/a | n/a |  yes |
 | `ingress_service_nodeport_http` | For NodePort type of ingress service, it sets the nodePort that maps to the Ingress' port 80 | n/a | `"32080"` |  no |
 | `ingress_service_type` | Type of ingress controller service to create | n/a | `"NodePort"` |  no |
 | `install_helm` | Install Helm during the deployment of the module | n/a | `true` |  no |

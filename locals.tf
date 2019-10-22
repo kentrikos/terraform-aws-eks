@@ -50,14 +50,14 @@ locals {
 
   maps_roles_default = [
     {
-      role_arn = var.enable_default_roles ? aws_iam_role.cluster_admin[0].arn : ""
+      rolearn  = var.enable_default_roles ? aws_iam_role.cluster_admin[0].arn : ""
       username = "admin"
-      group    = "system:masters"
+      groups   = ["system:masters"]
     },
     {
-      role_arn = var.enable_default_roles ? aws_iam_role.cluster_view[0].arn : ""
+      rolearn  = var.enable_default_roles ? aws_iam_role.cluster_view[0].arn : ""
       username = "view"
-      group    = "view"
+      groups   = ["view"]
     },
   ]
 
