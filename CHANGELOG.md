@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.0.0] 2019-10-17
 
+### Added 
+
+- Support for parameters for ingress Helm deployment
+- Support for EKS logs
+
 ### Changed
 
 - modified dependencies versions to latest available:
