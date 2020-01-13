@@ -9,6 +9,10 @@ resource "null_resource" "initialize_helm" {
   provisioner "local-exec" {
     command = "echo \"${data.template_file.helm_rbac_config.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
   }
+
+  provisioner "local-exec" {
+    command = "helm repo add stable https://kubernetes-charts.storage.googleapis.com/"
+  }
   depends_on = [null_resource.master_config_services_proxy]
 }
 
