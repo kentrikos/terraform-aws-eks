@@ -9,10 +9,6 @@ resource "null_resource" "initialize_helm" {
   provisioner "local-exec" {
     command = "echo \"${data.template_file.helm_rbac_config.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
   }
-
-  provisioner "local-exec" {
-    command = "helm init --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
-  }
   depends_on = [null_resource.master_config_services_proxy]
 }
 
