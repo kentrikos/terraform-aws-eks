@@ -6,7 +6,7 @@ resource "null_resource" "initialize_helm" {
   count = local.enable_helm
 
   provisioner "local-exec" {
-    command = "echo \"${data.template_file.helm_rbac_config.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}/kubeconfig_${var.cluster_prefix}\""
+    command = "echo \"${data.template_file.helm_rbac_config.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_name}\""
   }
 
   provisioner "local-exec" {
