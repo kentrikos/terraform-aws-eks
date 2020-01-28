@@ -11,7 +11,7 @@ resource "null_resource" "initialize_helm" {
   }
 
   provisioner "local-exec" {
-    command = "helm init --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
+    command = "helm init --upgrade --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
   }
   depends_on = [null_resource.master_config_services_proxy]
 }
