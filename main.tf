@@ -8,9 +8,9 @@ module "eks" {
   config_output_path                         = var.outputs_directory
   tags                                       = var.tags
   vpc_id                                     = var.vpc_id
-  worker_groups                              = local.worker_group
+  //worker_groups                              = local.worker_group
   kubeconfig_aws_authenticator_env_variables = var.aws_authenticator_env_variables
-  worker_additional_security_group_ids       = [aws_security_group.all_worker_additional.id]
+  //worker_additional_security_group_ids       = [aws_security_group.all_worker_additional.id]
   cluster_version                            = var.cluster_version
 
   map_roles    = local.map_roles
@@ -19,6 +19,29 @@ module "eks" {
 
   cluster_enabled_log_types     = var.cluster_enabled_log_types
   cluster_log_retention_in_days = var.cluster_log_retention_in_days
+
+  node_groups_defaults = {
+    ami_type  = "AL2_x86_64"
+    disk_size = 50
+  }
+
+  node_groups = {
+    example = {
+      desired_capacity = 1
+      max_capacity     = 10
+      min_capacity     = 1
+
+      instance_type = "m4.large"
+      # k8s_labels = {
+      #   Environment = "test"
+      #   GithubRepo  = "terraform-aws-eks"
+      #   GithubOrg   = "terraform-aws-modules"
+      # }
+      additional_tags = {
+        ExtraTag = "example"
+      }
+    }
+  }
 }
 
 resource "aws_security_group" "all_worker_additional" {
