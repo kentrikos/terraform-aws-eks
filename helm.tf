@@ -10,11 +10,11 @@ resource "null_resource" "initialize_helm" {
     command = "echo \"${data.template_file.helm_rbac_config.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
   }
 
-#   provisioner "local-exec" {
-#     command = "helm init --upgrade --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
-#   }
-#   depends_on = [null_resource.master_config_services_proxy]
-# }
+  provisioner "local-exec" {
+    command = "helm init --upgrade --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
+  }
+  depends_on = [null_resource.master_config_services_proxy]
+}
 
 resource "null_resource" "install_metrics_server" {
   count = local.enable_helm #only for pod autoscaling
