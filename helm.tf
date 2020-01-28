@@ -7,11 +7,11 @@ resource "null_resource" "initialize_helm" {
   count = local.enable_helm
 
   provisioner "local-exec" {
-    command = "echo \"${data.template_file.helm_rbac_config.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
+    command = "echo \"${data.template_file.helm_rbac_config.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}""
   }
 
   provisioner "local-exec" {
-    command = "helm init --upgrade --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
+    command = "helm init --upgrade --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}""
   }
   depends_on = [null_resource.master_config_services_proxy]
 }
@@ -42,7 +42,7 @@ resource "null_resource" "initialize_cluster_autoscaling" {
   count = local.enable_cluster_autoscaling ? 1 : 0
 
   provisioner "local-exec" {
-    command = "echo \"${data.template_file.cluster_autoscaling.rendered}\" | helm install -f - stable/cluster-autoscaler --name vertical-scaler --namespace=kube-system --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
+    command = "echo \"${data.template_file.cluster_autoscaling.rendered}\" | helm install -f - stable/cluster-autoscaler --name vertical-scaler --namespace=kube-system --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}""
   }
 
   depends_on = [null_resource.initialize_helm]
