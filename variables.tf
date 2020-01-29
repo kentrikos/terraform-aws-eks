@@ -37,7 +37,7 @@ variable "key_name" {
 
 variable "outputs_directory" {
   description = "The local folder path to store output files. Must end with '/' ."
-  default     = "./"
+  default     = "./output"
 }
 
 variable "max_worker_nodes" {
