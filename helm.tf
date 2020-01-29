@@ -12,9 +12,9 @@ resource "null_resource" "initialize_helm" {
   provisioner "local-exec" {
     command = "helm init --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
   }
-  depends_on = [null_resource.master_config_services_proxy]
+  depends_on = [module.eks]
 }
-
+#null_resource.master_config_services_proxy
 resource "null_resource" "install_metrics_server" {
   count = local.enable_helm #only for pod autoscaling
 
