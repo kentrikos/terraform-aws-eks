@@ -8,9 +8,9 @@ module "eks" {
   config_output_path                         = var.outputs_directory
   tags                                       = var.tags
   vpc_id                                     = var.vpc_id
-  //worker_groups                              = local.worker_group
+  worker_groups                              = local.worker_group
   kubeconfig_aws_authenticator_env_variables = var.aws_authenticator_env_variables
-  //worker_additional_security_group_ids       = [aws_security_group.all_worker_additional.id]
+  worker_additional_security_group_ids       = [aws_security_group.all_worker_additional.id]
   cluster_version                            = var.cluster_version
 
   map_roles    = local.map_roles
