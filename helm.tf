@@ -66,7 +66,7 @@ resource "null_resource" "install_ingress" {
 
   provisioner "local-exec" {
     command = <<EOC
-        helm upgrade --install  ingress stable/nginx-ingress --namespace=kube-system --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\" ${local.ingress_helm_variables}
+        helm upgrade --install  ingress stable/nginx-ingress --namespace=kube-system --kubeconfig=${var.outputs_directory}kubeconfig_${var.cluster_prefix} ${local.ingress_helm_variables}
 EOC
   }
 
