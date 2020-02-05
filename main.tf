@@ -58,6 +58,8 @@ module "eks" {
       additional_tags = {
         ExtraTag = "example"
       }
+      key_name = var.key_name
+      source_security_group_ids = [aws_security_group.all_worker_additional.id]
     }
   }
 }
