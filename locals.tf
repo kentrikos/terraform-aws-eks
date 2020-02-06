@@ -15,7 +15,8 @@ locals {
     },
   ]
 
-  map_node_groups_defaults = {
+  map_node_groups_defaults = [
+    {
      node_group_name  = "${var.cluster_prefix}_manage_node_group"
      ami_type         = lookup(var.node_groups_defaults, "ami_type", null)
      disk_size        = lookup(var.node_groups_defaults, "disk_size", "100")
@@ -26,7 +27,8 @@ locals {
      instance_type    = lookup(var.node_groups_defaults, "instance_type", "t3.small")
      subnet_ids       = var.private_subnets
      version          = var.cluster_version
-  }
+    }
+  ]
 
   horizontal_pod_autoscaler_defaults = {}
 
