@@ -26,6 +26,10 @@ locals {
      source_security_group_ids = [aws_security_group.all_worker_additional.id]
      subnets                   = var.private_subnets
      version                   = var.cluster_version
+     
+     additional_tags = {
+      Name = "manage_node-${var.cluster_prefix}"
+    }
   }
   
 
