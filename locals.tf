@@ -16,16 +16,16 @@ locals {
   ]
 
   map_node_groups_defaults = {
-     ami_type              = lookup(var.node_groups_defaults, "ami_type", null)
-     disk_size             = lookup(var.node_groups_defaults, "disk_size", "100")
-     key_name              = var.key_name
-     desired_capacity      = lookup(var.node_groups_defaults, "desired_capacity", "1")
-     max_capacity          = lookup(var.node_groups_defaults, "max_capacity", "10")
-     min_capacity          = lookup(var.node_groups_defaults, "min_capacity", "1")
-     instance_type         = lookup(var.node_groups_defaults, "instance_type", "t3.small")
-     source_security_group = [aws_security_group.all_worker_additional.id]
-     subnets               = var.private_subnets
-     version               = var.cluster_version
+     ami_type                 = lookup(var.node_groups_defaults, "ami_type", null)
+     disk_size                = lookup(var.node_groups_defaults, "disk_size", "100")
+     key_name                 = var.key_name
+     desired_capacity         = lookup(var.node_groups_defaults, "desired_capacity", "1")
+     max_capacity             = lookup(var.node_groups_defaults, "max_capacity", "10")
+     min_capacity             = lookup(var.node_groups_defaults, "min_capacity", "1")
+     instance_type            = lookup(var.node_groups_defaults, "instance_type", "t3.small")
+     source_security_group_id = [aws_security_group.all_worker_additional.id]
+     subnets                  = var.private_subnets
+     version                  = var.cluster_version
   }
   
 
