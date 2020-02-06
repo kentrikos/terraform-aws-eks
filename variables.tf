@@ -174,6 +174,7 @@ variable "cluster_log_retention_in_days" {
 variable "node_groups_defaults" {
   description = "map of maps of node groups to create."
   type        = any
+  default     = {}
 }
 
 variable "node_groups" {
