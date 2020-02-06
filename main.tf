@@ -40,6 +40,7 @@ module "eks" {
 
   node_groups_defaults = var.node_groups_defaults
   node_groups          = var.node_groups
+}
 
 resource "aws_security_group" "all_worker_additional" {
   name_prefix = "all_worker_additional"
@@ -151,4 +152,3 @@ resource "aws_iam_role_policy_attachment" "cluster_view_AmazonEKSServicePolicy" 
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
   role       = aws_iam_role.cluster_view[0].name
 }
-
