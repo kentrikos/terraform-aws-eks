@@ -27,7 +27,7 @@ locals {
      instance_type    = lookup(var.node_groups_defaults, "instance_type", "t3.small")
      subnet_ids       = var.private_subnets
      version          = var.cluster_version
-    }
+    },
   ]
 
   horizontal_pod_autoscaler_defaults = {}
