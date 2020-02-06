@@ -38,48 +38,8 @@ module "eks" {
   cluster_enabled_log_types     = var.cluster_enabled_log_types
   cluster_log_retention_in_days = var.cluster_log_retention_in_days
 
-  node_groups_defaults = {
-    ami_type  = "AL2_x86_64"
-    disk_size = 50
-  }
-
-  node_groups = {
-    example = {
-      desired_capacity = 1
-      max_capacity     = 10
-      min_capacity     = 1
-
-      instance_type = "m4.large"
-      k8s_labels = {
-        Environment = "test"
-        GithubRepo  = "terraform-aws-eks"
-        GithubOrg   = "terraform-aws-modules"
-      }
-      additional_tags = {
-        ExtraTag = "example"
-      }
-      key_name = var.key_name
-      source_security_group_ids = [aws_security_group.all_worker_additional.id]
-    },
-    example_2 = {
-      desired_capacity = 1
-      max_capacity     = 10
-      min_capacity     = 1
-
-      instance_type = "m4.large"
-      k8s_labels = {
-        Environment = "test"
-        GithubRepo  = "terraform-aws-eks"
-        GithubOrg   = "terraform-aws-modules"
-      }
-      additional_tags = {
-        ExtraTag = "example_2"
-      }
-      key_name = var.key_name
-      source_security_group_ids = [aws_security_group.all_worker_additional.id]
-    }
-  }
-}
+  node_groups_defaults = var.node_groups_defaults
+  node_groups          = var.node_groups
 
 resource "aws_security_group" "all_worker_additional" {
   name_prefix = "all_worker_additional"

@@ -170,3 +170,18 @@ variable "cluster_log_retention_in_days" {
   description = "Number of days to retain log events. Default retention - 90 days."
   type        = number
 }
+
+variable "node_groups_defaults" {
+  description = "map of maps of node groups to create."
+  type        = any
+  default     = {
+    ami_type  = "AL2_x86_64"
+    disk_size = 50
+  }
+}
+
+variable "node_groups" {
+  description = "Map of maps of `eks_node_groups` to create."
+  type        = any
+  default     = {}
+}
