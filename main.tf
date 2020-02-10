@@ -33,7 +33,6 @@ provider "template" {
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "8.0.0"
-  provider = "kubernetes"
 
   cluster_name                               = var.cluster_prefix
   subnets                                    = concat(var.private_subnets, var.public_subnets)
