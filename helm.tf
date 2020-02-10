@@ -3,7 +3,6 @@ data "template_file" "helm_rbac_config" {
 }
 
 resource "null_resource" "initialize_helm" {
-  provider = "kubernetes"
   count = local.enable_helm
 
   provisioner "local-exec" {
@@ -18,7 +17,6 @@ resource "null_resource" "initialize_helm" {
 #null_resource.master_config_services_proxy
 resource "null_resource" "install_metrics_server" {
   count = local.enable_helm #only for pod autoscaling
-  provider = "kubernetes"
 
   provisioner "local-exec" {
     command = "helm install stable/metrics-server --name metrics-server --namespace metrics --set args[0]=--kubelet-insecure-tls,args[1]=--kubelet-preferred-address-types=InternalIP  --kubeconfig=${var.outputs_directory}kubeconfig_${var.cluster_prefix}"
@@ -40,7 +38,6 @@ data "template_file" "cluster_autoscaling" {
 }
 
 resource "null_resource" "initialize_cluster_autoscaling" {
-  provider = "kubernetes"
   count = local.enable_cluster_autoscaling ? 1 : 0
 
   provisioner "local-exec" {
@@ -65,7 +62,6 @@ locals {
 }
 
 resource "null_resource" "install_ingress" {
-  provider = "kubernetes"
   count = var.ingress_deploy ? 1 : 0
 
   provisioner "local-exec" {

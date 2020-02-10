@@ -108,26 +108,26 @@ data "template_file" "proxy_environment_variables" {
   }
 }
 
-resource "null_resource" "proxy_environment_variables" {
-  count      = var.http_proxy != "" ? 1 : 0
-  depends_on = [module.eks]
+# resource "null_resource" "proxy_environment_variables" {
+#   count      = var.http_proxy != "" ? 1 : 0
+#   depends_on = [module.eks]
 
-  provisioner "local-exec" {
-    command = "echo \"${data.template_file.proxy_environment_variables.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
-  }
-}
+#   provisioner "local-exec" {
+#     command = "echo \"${data.template_file.proxy_environment_variables.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
+#   }
+# }
 
-resource "null_resource" "master_config_services_proxy" {
-  count = var.http_proxy != "" ? length(local.master_config_services_proxy) : 0
-  depends_on = [
-    module.eks,
-    null_resource.proxy_environment_variables,
-  ]
+# resource "null_resource" "master_config_services_proxy" {
+#   count = var.http_proxy != "" ? length(local.master_config_services_proxy) : 0
+#   depends_on = [
+#     module.eks,
+#     null_resource.proxy_environment_variables,
+#   ]
 
-  provisioner "local-exec" {
-    command = "kubectl patch ${local.master_config_services_proxy[count.index]["type"]} ${local.master_config_services_proxy[count.index]["name"]} --namespace kube-system --type='json' -p='[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/0/envFrom\", \"value\": [{\"configMapRef\": {\"name\": \"proxy-environment-variables\"}}] }]' --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
-  }
-}
+#   provisioner "local-exec" {
+#     command = "kubectl patch ${local.master_config_services_proxy[count.index]["type"]} ${local.master_config_services_proxy[count.index]["name"]} --namespace kube-system --type='json' -p='[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/0/envFrom\", \"value\": [{\"configMapRef\": {\"name\": \"proxy-environment-variables\"}}] }]' --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
+#   }
+# }
 
 resource "aws_iam_role" "cluster_admin" {
   count                 = var.enable_default_roles ? 1 : 0
