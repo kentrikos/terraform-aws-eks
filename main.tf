@@ -125,6 +125,7 @@ resource "null_resource" "master_config_services_proxy" {
   ]
 
   provisioner "local-exec" {
+    provider = "kubernetes.default"
     command = "kubectl patch ${local.master_config_services_proxy[count.index]["type"]} ${local.master_config_services_proxy[count.index]["name"]} --namespace kube-system --type='json' -p='[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/0/envFrom\", \"value\": [{\"configMapRef\": {\"name\": \"proxy-environment-variables\"}}] }]' --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
   }
 }
