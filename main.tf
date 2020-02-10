@@ -14,6 +14,22 @@ provider "kubernetes" {
   version                = "~> 1.10"
 }
 
+provider "random" {
+  version = "~> 2.1"
+}
+
+provider "local" {
+  version = "~> 1.2"
+}
+
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "template" {
+  version = "~> 2.1"
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "8.0.0"
