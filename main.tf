@@ -36,7 +36,7 @@ module "eks" {
 
   cluster_name                               = var.cluster_prefix
   subnets                                    = concat(var.private_subnets, var.public_subnets)
-  write_kubeconfig                           = true
+  write_kubeconfig                           = false
   config_output_path                         = var.outputs_directory
   tags                                       = var.tags
   vpc_id                                     = var.vpc_id
