@@ -1,8 +1,10 @@
 data "aws_eks_cluster" "cluster" {
+  provider = "kubernetes"
   name = module.eks.cluster_id
 }
 
 data "aws_eks_cluster_auth" "cluster" {
+  provider = "kubernetes"
   name = module.eks.cluster_id
 }
 
