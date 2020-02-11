@@ -15,11 +15,6 @@ provider "kubernetes" {
   version                = "~> 1.10"
 }
 
-provider "aws" {
-  alias = "default"
-  aws   = ">= 2.44"
-}
-
 provider "random" {
   version = "~> 2.1"
 }
@@ -39,10 +34,6 @@ provider "template" {
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "8.2.0"
-  providers = {
-    kubernetes = "k8s"
-    aws        = "default"
-  } 
 
   cluster_name                               = var.cluster_prefix
   subnets                                    = concat(var.private_subnets, var.public_subnets)
