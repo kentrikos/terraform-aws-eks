@@ -7,6 +7,7 @@ data "aws_eks_cluster_auth" "cluster" {
 }
 
 provider "kubernetes" {
+  alias                  = "k8s"
   host                   = data.aws_eks_cluster.cluster.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   token                  = data.aws_eks_cluster_auth.cluster.token
@@ -33,7 +34,9 @@ provider "template" {
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "8.2.0"
-  providers = kubernetes
+  providers = {
+    kubernetes = "k8s"
+  } 
 
   cluster_name                               = var.cluster_prefix
   subnets                                    = concat(var.private_subnets, var.public_subnets)
