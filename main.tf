@@ -33,6 +33,7 @@ provider "template" {
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "8.2.0"
+  providers = kubernetes
 
   cluster_name                               = var.cluster_prefix
   subnets                                    = concat(var.private_subnets, var.public_subnets)
@@ -114,9 +115,6 @@ resource "null_resource" "proxy_environment_variables" {
 
   provisioner "local-exec" {
     command = "echo \"${data.template_file.proxy_environment_variables.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
-    environment = {
-      KUBECONFIG = "${provider.kubernetes}"
-    }
   }
 }
 
