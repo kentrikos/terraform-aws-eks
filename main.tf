@@ -115,7 +115,7 @@ resource "null_resource" "proxy_environment_variables" {
   provisioner "local-exec" {
     command = "echo \"${data.template_file.proxy_environment_variables.rendered}\" | kubectl apply -f - --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
     environment = {
-      KUBECONFIG = "${data.provider.kubernetes}"
+      KUBECONFIG = "${provider.kubernetes}"
     }
   }
 }
