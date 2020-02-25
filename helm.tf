@@ -20,7 +20,7 @@ resource "null_resource" "install_metrics_server" {
   count = local.enable_helm #only for pod autoscaling
 
   provisioner "local-exec" {
-    command = "helm install stable/metrics-server --name metrics-server --namespace metrics --set args[0]=--kubelet-insecure-tls,args[1]=--kubelet-preferred-address-types=InternalIP  --kubeconfig=${var.outputs_directory}kubeconfig_${var.cluster_prefix}"
+    command = "helm install metrics-server stable/metrics-server --namespace metrics --set args[0]=--kubelet-insecure-tls,args[1]=--kubelet-preferred-address-types=InternalIP  --kubeconfig=${var.outputs_directory}kubeconfig_${var.cluster_prefix}"
   }
 
   depends_on = [null_resource.initialize_helm]
@@ -42,7 +42,7 @@ resource "null_resource" "initialize_cluster_autoscaling" {
   count = local.enable_cluster_autoscaling ? 1 : 0
 
   provisioner "local-exec" {
-    command = "echo \"${data.template_file.cluster_autoscaling.rendered}\" | helm install -f - stable/cluster-autoscaler --name vertical-scaler --namespace=kube-system --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
+    command = "echo \"${data.template_file.cluster_autoscaling.rendered}\" | helm install -f - vertical-scaler stable/cluster-autoscaler --namespace=kube-system --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
   }
 
   depends_on = [null_resource.initialize_helm]
@@ -67,7 +67,7 @@ resource "null_resource" "install_ingress" {
 
   provisioner "local-exec" {
     command = <<EOC
-        helm upgrade --install  ingress stable/nginx-ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}" ${local.ingress_helm_variables}
+        helm upgrade --install ingress stable/nginx-ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}" ${local.ingress_helm_variables}
 EOC
   }
 
