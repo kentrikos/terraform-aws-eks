@@ -37,7 +37,7 @@ variable "key_name" {
 
 variable "outputs_directory" {
   description = "The local folder path to store output files. Must end with '/' ."
-  default     = "./output/"
+  default     = "./"
 }
 
 variable "max_worker_nodes" {
@@ -169,4 +169,16 @@ variable "cluster_log_retention_in_days" {
   default     = 90
   description = "Number of days to retain log events. Default retention - 90 days."
   type        = number
+}
+
+variable "node_groups_defaults" {
+  description = "map of maps of node groups to create."
+  type        = any
+  default     = {}
+}
+
+variable "node_groups" {
+  description = "Map of maps of `eks_node_groups` to create."
+  type        = any
+  default     = {}
 }

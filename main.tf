@@ -1,6 +1,22 @@
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_id
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks.cluster_id
+}
+
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.cluster.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  token                  = data.aws_eks_cluster_auth.cluster.token
+  load_config_file       = false
+  version                = "<= 1.10.0"
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "6.0.2"
+  version = "8.2.0"
 
   cluster_name                               = var.cluster_prefix
   subnets                                    = concat(var.private_subnets, var.public_subnets)
@@ -19,6 +35,9 @@ module "eks" {
 
   cluster_enabled_log_types     = var.cluster_enabled_log_types
   cluster_log_retention_in_days = var.cluster_log_retention_in_days
+
+  node_groups_defaults = local.node_groups_defaults
+  node_groups          = var.node_groups
 }
 
 resource "aws_security_group" "all_worker_additional" {
@@ -131,4 +150,3 @@ resource "aws_iam_role_policy_attachment" "cluster_view_AmazonEKSServicePolicy" 
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
   role       = aws_iam_role.cluster_view[0].name
 }
-

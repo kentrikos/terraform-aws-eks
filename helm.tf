@@ -1,4 +1,3 @@
-
 data "template_file" "helm_rbac_config" {
   template = file("${path.module}/templates/helm_rbac_config.yaml.tpl")
 }
@@ -12,10 +11,11 @@ resource "null_resource" "initialize_helm" {
 
   provisioner "local-exec" {
     command = "helm init --service-account tiller --wait --kubeconfig=\"${var.outputs_directory}kubeconfig_${var.cluster_prefix}\""
+    # command = "helm version"
   }
-  depends_on = [null_resource.master_config_services_proxy]
+  depends_on = [null_resource.master_config_services_proxy, module.eks]
 }
-
+#null_resource.master_config_services_proxy
 resource "null_resource" "install_metrics_server" {
   count = local.enable_helm #only for pod autoscaling
 
@@ -67,7 +67,7 @@ resource "null_resource" "install_ingress" {
 
   provisioner "local-exec" {
     command = <<EOC
-        helm upgrade --install  ingress stable/nginx-ingress --namespace=kube-system --kubeconfig="${var.outputs_directory}kubeconfig_${var.cluster_prefix}" ${local.ingress_helm_variables}
+        helm upgrade --install  ingress stable/nginx-ingress --namespace=kube-system --kubeconfig=${var.outputs_directory}kubeconfig_${var.cluster_prefix} ${local.ingress_helm_variables}
 EOC
   }
 
